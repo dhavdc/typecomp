@@ -73,10 +73,6 @@ let wordData = {
     typed: 0
 };
 
-//WORD COLORS
-let colorCurrentWord =" #dddddd";
-let colorCorrectWord = "#93C572";
-let colorIncorrectWord = "#e50000";
 
 // Knuth-Fisher-Yates Shuffle
 shuffle = (array) => {
@@ -105,7 +101,6 @@ addWords = () => {
 
 checkWord = (word) => {
     let wordLength = word.val().length;
-    
     let current = $('.current-word');
     let substring = current.html().trim().substring(0, wordLength);
     substring = substring.trim();
@@ -122,7 +117,7 @@ checkWord = (word) => {
 }
 
 submitWord = (word) => {
-    console.log('Submitted Word');
+    console.log("Submitted Word: " + word.val())
     let current = $('.current-word');
     if (checkWord(word)){
         current.removeClass("current-word");
@@ -134,15 +129,14 @@ submitWord = (word) => {
         current.addClass("incorrect-word-c");
         wordData.incorrect++;
     }
+    wordData.total = wordData.correct + wordData.incorrect;
     current.next().addClass("current-word");
 }
 
 
 clearLine = () => {
-    let wordContainer = $('.wordcontainer');
     let current = $('.current-word');
     let previous = current.prev();
-    let children = $('.correct-word-c, .incorrect-word-c').length;
     if (current.offset().top > previous.offset().top) {
         $('.correct-word-c, .incorrect-word-c').remove();
     }
@@ -168,15 +162,18 @@ timer  = (seconds) => {
 }
 
 calculateWPM = (data) => {
+    console.log(data);
     const min = data.seconds/60;
-    const wpm = Math.ceil((data.typed / 5) - (data.incorrect) / min);
+    const grossWPM = data.typed/5;
+    const netWPM = grossWPM - (data.incorrect/min)
+    //const wpm = Math.ceil((data.typed / 5) - (data.incorrect) / min);
     const accuracy = Math.ceil((data.correct / data.total) * 100);
-    if (wpm < 0){
-        wpm = 0;
+    if (grossWPM < 0){
+        grossWPM = 0;
     }   
     const results = 
     `<ul id="results">
-    <li>WPM: <span class="wpm-value">${wpm}</span></li>
+    <li>WPM: <span class="wpm-value">${netWPM}</span></li>
     <li>Accuracy: <span class="wpm-value">${accuracy}%</span></li>
     <li id="results-stats">
     Total Words: <span>${data.total}</span> |
@@ -195,11 +192,8 @@ calculateWPM = (data) => {
     // <shift>      16
     // [A-Z]        65-90
     // [' "]        222
-
-runType = (key) => {
+$('.typebox').keydown((event) => {
     console.log('running');
-    let keyCode = key.keyCode;
-    console.log(keyCode)
     let word = $('.typebox');
 
     if (word.val().match(/^\s/g)){
@@ -208,7 +202,7 @@ runType = (key) => {
     else{
         if (timer(wordData.seconds)){
             checkWord(word);
-            if (keyCode == 32){
+            if (event.which == 32){
                 submitWord(word);
                 clearLine();
                 word.val("");
@@ -222,8 +216,5 @@ runType = (key) => {
     }
   
 
-
-
-}
-
+})
 addWords();
