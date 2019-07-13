@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/css/semantic/dist/semantic.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <script src="/css/semantic/dist/semantic.min.js"></script>
+    <title>TypeComp</title>
+</head>
+<body>
+    <div class="ui three item menu">
+        {{#equals navbarSelected 0}}
+        <a class="active item" href="#">Home</a>
+        <a class="item" href="#">Compete</a>
+        <a class="item" href="practice">Practice</a>
+        {{/equals}}
+        {{#equals navbarSelected 1}}
+        <a class="item" href="#">Home</a>
+        <a class="active item" href="#">Compete</a>
+        <a class="item" href="practice">Practice</a>
+        {{/equals}}
+        {{#equals navbarSelected 2}}
+        <a class="item" href="#">Home</a>
+        <a class="item" href="#">Compete</a>
+        <a class="active item" href="practice">Practice</a>
+        {{/equals}}
+
+</div>
+  
+    {{{body}}}
+
+
+
+</body>
+
+
+
+
+
+
+
+
+</html>

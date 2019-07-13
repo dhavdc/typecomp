@@ -1,0 +1,35 @@
+.wordcontainer{
+  border: 1px solid black;
+  height: 4em;
+  word-wrap: break-word;
+  font-size: 30px;
+  line-height: 40px;
+  overflow: hidden;
+
+  
+}
+
+.timer{
+  display: block;
+  text-align: center;
+  font-size: 30px;
+  padding-top: 10px;
+}
+
+.typebox{
+  display: block;
+  text-align: center !important
+}
+
+.current-word {
+  background-color: #dddddd; }
+
+.correct-word-c {
+  color: #93C572; }
+
+.incorrect-word-c {
+  color: #e50000; }
+
+.incorrect-word-bg {
+  background-color: #e50000; }
+
