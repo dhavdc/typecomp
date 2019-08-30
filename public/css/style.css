@@ -1,7 +1,6 @@
 .wordcontainer{
   border: 1px solid black;
   height: 4em;
-  word-wrap: break-word;
   font-size: 30px;
   line-height: 40px;
   overflow: hidden;
@@ -9,11 +8,36 @@
   
 }
 
+.roomcard{
+ 
+}
+
+.roomcontainer{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.joinbutton{
+
+}
+
+.wpmheader{
+  text-align: center;
+  margin-right: -67.84px;
+}
+
 .timer{
   display: block;
   text-align: center;
   font-size: 30px;
   padding-top: 10px;
+}
+
+span{
+  margin-right: 6px;
+  margin-left: 6px;
+  display: inline-block;
 }
 
 .typebox{

@@ -1,7 +1,34 @@
 const express = require('express');
+var session = require("express-session");
 const handlebars = require('express-handlebars');
+var okta = require("@okta/okta-sdk-nodejs");
+var ExpressOIDC = require("@okta/oidc-middleware").ExpressOIDC;
+const dashboardRouter = require("./routes/dashboard");
+const practiceRouter = require("./routes/practice");
+const usersRouter = require("./routes/users");
+const unauthenticatedRouter = require("./routes/unauthenticated");
+const competeRouter = require("./routes/compete");
+const auth = require("./auth");
+const middleware = require("./middleware");
 const app = express();
 const port = 3000;
+const mongo = require('mongodb').MongoClient
+const url = 'mongodb://localhost:27017'
+const mongooseHelper = require("./mongoose");
+
+
+app.set('view engine', 'handlebars');
+
+
+app.use(session({
+    secret: '9h7adw9g7aydw97hjjdf1236dadwh97',
+    resave: true,
+    saveUninitialized: false
+  }));
+
+app.use(auth.oidc.router);
+app.use(middleware.addUser);
+
 
 
 
@@ -13,13 +40,19 @@ app.engine('handlebars', handlebars({
         }
     },
 }));
-app.set('view engine', 'handlebars');
+
+app.use('/dashboard', middleware.loginRequired, dashboardRouter);
+app.use('/practice', practiceRouter);
+app.use('/users', usersRouter);
+app.use('/unauthenticated', unauthenticatedRouter);
+app.use('/compete', competeRouter);
 
 app.get('/', (req, res) => {
-    res.render('index', {title: "BET"});
+    res.render('index', {navbarSelected: 0});
 });
-app.get('/practice', (req, res) => {
-    res.render('practice', {navbarSelected: 2});
-});
+
+
+
+
 
 app.listen(port, () => console.log(`TypeComp launched on port ${port}!`));

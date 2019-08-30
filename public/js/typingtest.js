@@ -90,9 +90,9 @@ addWords = () => {
     let wordContainer = $('.wordcontainer');
     wordContainer.html(''); //Clear words
     let words = shuffle(wordList);
-    let fulltext = `<span> ${words[0]}</span>`
+    let fulltext = `<span>${words[0]}</span>`
     for (let i = 1; i < 250; i++){
-        fulltext += `<span> ${words[i]}</span>`
+        fulltext += `<span>${words[i]}</span>`
         wordContainer.html(fulltext)
     }
     //Mark first word as current word
@@ -171,6 +171,7 @@ calculateWPM = (data) => {
     if (grossWPM < 0){
         grossWPM = 0;
     }   
+
     const results = 
     `<ul id="results">
     <li>WPM: <span class="wpm-value">${netWPM}</span></li>
@@ -182,6 +183,7 @@ calculateWPM = (data) => {
     Characters Typed: <span>${data.typed}</span>
     </li>
     </ul>`;
+    $('.wordcontainer').css("height", "7em");
     $('.wordcontainer').html(results);
 
 }
