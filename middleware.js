@@ -1,6 +1,6 @@
 const auth = require("./auth");
-const mongooseHelper = require("./mongoose")
-console.log(mongooseHelper.mongoose)
+const mongooseHelper = require("./mongoose");
+console.log(mongooseHelper.mongoose);
 var infoSchema = new mongooseHelper.mongoose.Schema({
     userID: String,
     averageWPM: Number,

@@ -5,7 +5,7 @@ const router = express.Router();
 
 // Log a user out
 router.get("/", (req, res) => {
-  res.render("unauthenticated")
+  res.render("unauthenticated");
 });
 
 

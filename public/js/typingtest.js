@@ -1,3 +1,4 @@
+
 const wordList = [
     "the", "name", "of", "very", "to", "through", "and", "just", "a",
     "form", "in", "much", "is", "great", "it", "think", "you", "say",
@@ -84,28 +85,28 @@ shuffle = (array) => {
         array[i] = t;
     }
     return array;
-}
+};
 
 addWords = () => {
     let wordContainer = $('.wordcontainer');
     wordContainer.html(''); //Clear words
     let words = shuffle(wordList);
-    let fulltext = `<span>${words[0]}</span>`
+    let fulltext = `<span>${words[0]}</span>`;
     for (let i = 1; i < 250; i++){
-        fulltext += `<span>${words[i]}</span>`
-        wordContainer.html(fulltext)
+        fulltext += `<span>${words[i]}</span>`;
+        wordContainer.html(fulltext);
     }
     //Mark first word as current word
     $('.wordcontainer').children(":first").addClass("current-word");
-}
+};
 
 checkWord = (word) => {
     let wordLength = word.val().length;
     let current = $('.current-word');
     let substring = current.html().trim().substring(0, wordLength);
     substring = substring.trim();
-    console.log(word.val())
-    console.log(substring)
+    console.log(word.val());
+    console.log(substring);
     if (word.val().trim() != substring){
         current.addClass("incorrect-word-bg");
         return false;
@@ -114,7 +115,7 @@ checkWord = (word) => {
         current.removeClass("incorrect-word-bg");
         return true;
     }
-}
+};
 
 submitWord = (word) => {
     console.log("Submitted Word: " + word.val())
@@ -131,7 +132,7 @@ submitWord = (word) => {
     }
     wordData.total = wordData.correct + wordData.incorrect;
     current.next().addClass("current-word");
-}
+};
 
 
 clearLine = () => {
@@ -140,11 +141,11 @@ clearLine = () => {
     if (current.offset().top > previous.offset().top) {
         $('.correct-word-c, .incorrect-word-c').remove();
     }
-}
+};
 
 timer  = (seconds) => {
     let time = seconds;
-    let oneMinute = $('.timer > span').html()
+    let oneMinute = $('.timer > span').html();
     if (oneMinute == "1:00"){
         let typingTimer = setInterval(() => {
             if (time <= 0 ){
@@ -159,18 +160,32 @@ timer  = (seconds) => {
     }
     else if (oneMinute == "0:00") {return false;}
     return true;
-}
+};
 
 calculateWPM = (data) => {
+    //Send post request to add user practice runs
+
     console.log(data);
     const min = data.seconds/60;
-    const grossWPM = data.typed/5;
+    let grossWPM = data.typed/5;
     const netWPM = grossWPM - (data.incorrect/min)
     //const wpm = Math.ceil((data.typed / 5) - (data.incorrect) / min);
     const accuracy = Math.ceil((data.correct / data.total) * 100);
     if (grossWPM < 0){
         grossWPM = 0;
     }   
+    // $.ajax({
+    //     type: "POST",
+    //     url: "adddata/practice",
+    //     data: netWPM,
+    //     success: (msg) => {
+    //         console.log(msg);
+    //     }
+    // });
+
+    axios.post("adddata/practice", {
+        wpm: netWPM
+    });
 
     const results = 
     `<ul id="results">
@@ -185,8 +200,8 @@ calculateWPM = (data) => {
     </ul>`;
     $('.wordcontainer').css("height", "7em");
     $('.wordcontainer').html(results);
+};
 
-}
 
 // Char:        Key Code:
     // <space>      32
@@ -214,9 +229,6 @@ $('.typebox').keydown((event) => {
         else{
             calculateWPM(wordData);
         }
-   
     }
-  
-
-})
+});
 addWords();
